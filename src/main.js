@@ -11,8 +11,14 @@ import '@/assets/index.css'
 import http from "./pligins/http"
 import App from './App'
 import router from './router'
+import moment from 'moment'
 
 
+// 全局写在main.js处理日期格式的过滤器
+Vue.filter("fmdata",(v)=>{
+  //返回处理的结果
+  return moment(v).format('YYYY-MM-DD hh:mm:ss')
+})
 
 Vue.config.productionTip = false
 // 使用ui插件

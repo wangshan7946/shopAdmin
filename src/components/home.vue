@@ -21,17 +21,19 @@
     </el-header>
     <el-container>
       <el-aside width="200px" class="aside">
-        <el-menu default-active="1" unique-opened>
+        <el-menu default-active="2" unique-opened router>
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="1-1">
+
+              <el-menu-item index="users">
                 <i class="el-icon-share"></i>
                 <span>用户列表</span>
               </el-menu-item>
+
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
@@ -96,24 +98,27 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main class="main">Main</el-main>
+      <el-main class="main">
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
 export default {
+  //在组件渲染之前判断有没有token--new vue之前
+  beforeCreate() {
+    console.log(localStorage.getItem("token"));
+    if (!localStorage.getItem("token")) {
+      // 提示请先登录，--回到登录页
+      this.$router.push({
+        path: "/login"
+      });
+      this.$message.warning("请先登录");
+    }
+  },
   methods: {
-    //在组件渲染之前判断有没有token--new vue之前
-    beforeCreate() {
-      if (!localStorage.getItem("token")) {
-        // 提示请先登录，--回到登录页
-        this.$router.push({
-          path: "/login"
-        });
-        this.$message.warning("请先登录");
-      }
-    },
     handleLogout() {
       // 清除用户信息，提示退出成功，回到登录页
       localStorage.clear();
